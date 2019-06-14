@@ -17,29 +17,27 @@ public class FinalExam {
 	// Method definition for problem 2
 	public static Stack<Integer> copyStack(Stack<Integer> stack) {
 		
-		/*Our strategy is to push all of the input onto
-		 * an "intermediate" queue, which will therefore
-		 * contain all the elements in the original
-		 * except order reversed. When that queue is
-		 * used to repopulate a stack, the elements will
-		 * be in the opposite order. Therefore we flip
-		 * them into a new stack named finished. */
-		Queue<Integer> intermediateQ = new LinkedList<Integer>();		
+		// Creates a stack of integers in reversed order
+		Stack<Integer> intermediate = new Stack<Integer>();
 		while(!stack.isEmpty()) {
-			intermediateQ.add(stack.pop());
+			intermediate.add(stack.pop());
 		}
 		
-		Stack<Integer> intermediateS = new Stack<Integer>();
+		// Creates a queue whose head is the first element in the original
+		Queue<Integer> intermediateQ = new LinkedList<Integer>();		
+		while(!intermediate.isEmpty()) {
+			intermediateQ.add(intermediate.pop());
+		}
+		
+		// Repopulates the passed stack as well as the storage stack
+		// in the original order of the passed stack.
 		while(!intermediateQ.isEmpty()) {
-			intermediateS.push(intermediateQ.remove());
+			int removed = intermediateQ.remove();
+			stack.push(removed);
+			intermediate.push(removed);
 		}
 		
-		Stack<Integer> finished = new Stack<Integer>();
-		while(!intermediateS.isEmpty()) {
-			finished.push(intermediateS.pop());
-		}
-		
-		return finished;
+		return intermediate;
 	}
 
 	public static void main(String[] args) {
